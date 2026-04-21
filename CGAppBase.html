@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>APKWorld - Descargas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; color:#111; }
+
+    header { background:white; padding:15px; text-align:center; font-size:22px; font-weight:bold; border-bottom:1px solid #ddd; }
+
+    .search { padding:10px; text-align:center; background:white; }
+    .search input { width:90%; padding:10px; border-radius:10px; border:1px solid #ccc; }
+
+    .container { padding:15px; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:15px; }
+
+    .app-card { background:white; padding:10px; border-radius:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    .app-icon { width:60px; height:60px; background:#ddd; border-radius:15px; margin:0 auto 10px; }
+    .app-name { font-size:16px; font-weight:bold; }
+    .version { font-size:12px; color:gray; margin-bottom:10px; }
+
+    .btn { background:#00cc88; color:white; border:none; padding:8px; border-radius:10px; cursor:pointer; width:100%; font-weight:bold; }
+    .btn:hover { background:#00aa70; }
+
+    /* DETALLE */
+    .detail { display:none; padding:15px; }
+    .detail-box { background:white; border-radius:15px; padding:15px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    .big-icon { width:80px; height:80px; background:#ddd; border-radius:20px; margin-bottom:10px; }
+    .rating { color:gold; font-weight:bold; margin:5px 0; }
+    .desc { font-size:14px; color:#444; margin:10px 0; }
+    .versions { margin-top:10px; }
+    .version-item { background:#eee; padding:8px; border-radius:8px; margin:5px 0; font-size:13px; }
+    .back { margin-bottom:10px; display:inline-block; cursor:pointer; color:#00aa70; font-weight:bold; }
+
+    /* RESPONSIVE EXTRA */
+    @media (min-width:600px) {
+      header { font-size:26px; }
+      .app-name { font-size:18px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>APKWorld</header>
+
+<div id="home">
+  <div class="search">
+    <input type="text" placeholder="Buscar apps..." onkeyup="buscarApps(this.value)">
+  </div>
+
+  <div class="container" id="apps"></div>
+</div>
+
+<div id="detail" class="detail"></div>
+
+<script>
+const data = [
+  {name:"Juan App", version:"1.0", rating:"4.5★", desc:"La app original de Juan.", versions:["1.0","0.9","0.8"]},
+  {name:"Juan Pro", version:"2.3", rating:"4.8★", desc:"Versión pro con más funciones.", versions:["2.3","2.2","2.1"]},
+  {name:"Juan Lite", version:"0.5", rating:"4.0★", desc:"Versión ligera.", versions:["0.5","0.4"]},
+  {name:"Juan Max", version:"3.0", rating:"5.0★", desc:"La más completa.", versions:["3.0","2.9"]},
+  {name:"Juan GO", version:"1.5", rating:"4.2★", desc:"Rápida y simple.", versions:["1.5","1.4"]},
+  {name:"Juan Beta", version:"0.9", rating:"3.8★", desc:"Versión de prueba.", versions:["0.9","0.8"]}
+];
+
+const appsContainer = document.getElementById("apps");
+
+function renderApps() {
+  appsContainer.innerHTML = "";
+  data.forEach((app,i)=>{
+    appsContainer.innerHTML += `
+    <div class="app-card">
+      <div class="app-icon"></div>
+      <div class="app-name">${app.name}</div>
+      <div class="version">v${app.version}</div>
+      <button class="btn" onclick="verDetalle(${i})">Descargar</button>
+    </div>`;
+  });
+}
+
+function verDetalle(i) {
+  const app = data[i];
+  document.getElementById("home").style.display="none";
+  const detail = document.getElementById("detail");
+  detail.style.display="block";
+
+  let versionesHTML = "";
+  app.versions.forEach(v=>{
+    versionesHTML += `<div class='version-item'>Versión ${v}</div>`;
+  });
+
+  detail.innerHTML = `
+    <div class="back" onclick="volver()">← Volver</div>
+    <div class="detail-box">
+      <div class="big-icon"></div>
+      <h2>${app.name}</h2>
+      <div class="rating">${app.rating}</div>
+      <div class="desc">${app.desc}</div>
+      <button class="btn" onclick="descargar('Juan.apk')">Descargar última versión (v${app.version})</button>
+      <div class="versions">
+        <h3>Otras versiones</h3>
+        ${versionesHTML}
+      </div>
+    </div>`;
+}
+
+function volver() {
+  document.getElementById("detail").style.display="none";
+  document.getElementById("home").style.display="block";
+}
+
+function descargar(archivo) {
+  alert("Descargando " + archivo + " (simulado)");
+}
+
+function buscarApps(texto) {
+  texto = texto.toLowerCase();
+  const cards = document.querySelectorAll('.app-card');
+  cards.forEach(card => {
+    card.style.display = card.innerText.toLowerCase().includes(texto) ? 'block' : 'none';
+  });
+}
+
+renderApps();
+</script>
+
+</body>
+</html>
