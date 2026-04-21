@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>CGApps</title>
+  <title>CGApps - Descargas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; color:#111; }
@@ -12,10 +12,26 @@
     .search { padding:10px; text-align:center; background:white; }
     .search input { width:90%; padding:10px; border-radius:10px; border:1px solid #ccc; }
 
-    .container { padding:15px; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:15px; }
+    /* GRID RESPONSIVE */
+    .container { padding:15px; display:grid; gap:15px; }
+
+    /* PC */
+    @media (min-width:900px) {
+      .container { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* Móvil horizontal */
+    @media (min-width:600px) and (max-width:899px) {
+      .container { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Móvil vertical */
+    @media (max-width:599px) {
+      .container { grid-template-columns: repeat(1, 1fr); }
+    }
 
     .app-card { background:white; padding:10px; border-radius:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-    .app-icon { width:60px; height:60px; background:#ddd; border-radius:15px; margin:0 auto 10px; }
+    .app-icon { width:60px; height:60px; border-radius:15px; margin:0 auto 10px; object-fit:cover; }
     .app-name { font-size:16px; font-weight:bold; }
     .version { font-size:12px; color:gray; margin-bottom:10px; }
 
@@ -25,18 +41,12 @@
     /* DETALLE */
     .detail { display:none; padding:15px; }
     .detail-box { background:white; border-radius:15px; padding:15px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
-    .big-icon { width:80px; height:80px; background:#ddd; border-radius:20px; margin-bottom:10px; }
+    .big-icon { width:90px; height:90px; border-radius:20px; object-fit:cover; }
     .rating { color:gold; font-weight:bold; margin:5px 0; }
     .desc { font-size:14px; color:#444; margin:10px 0; }
     .versions { margin-top:10px; }
     .version-item { background:#eee; padding:8px; border-radius:8px; margin:5px 0; font-size:13px; }
     .back { margin-bottom:10px; display:inline-block; cursor:pointer; color:#00aa70; font-weight:bold; }
-
-    /* RESPONSIVE EXTRA */
-    @media (min-width:600px) {
-      header { font-size:26px; }
-      .app-name { font-size:18px; }
-    }
   </style>
 </head>
 <body>
@@ -55,12 +65,12 @@
 
 <script>
 const data = [
-  {name:"Chicken Gun", version:"5.5.0", rating:"4.5★", desc:"La app original de Juan.", versions:["5.5,0","5.4.0","5.3.0"]},
-  {name:"Juan Pro", version:"2.3", rating:"4.8★", desc:"Versión pro con más funciones.", versions:["2.3","2.2","2.1"]},
-  {name:"Juan Lite", version:"0.5", rating:"4.0★", desc:"Versión ligera.", versions:["0.5","0.4"]},
-  {name:"Juan Max", version:"3.0", rating:"5.0★", desc:"La más completa.", versions:["3.0","2.9"]},
-  {name:"Juan GO", version:"1.5", rating:"4.2★", desc:"Rápida y simple.", versions:["1.5","1.4"]},
-  {name:"Juan Beta", version:"0.9", rating:"3.8★", desc:"Versión de prueba.", versions:["0.9","0.8"]}
+  {name:"Chicken Gun", version:"5.5.0", rating:"4.5★", desc:"La app original de Juan.", img:"assets/images/ChickenGunLogo.png", apk:"apks/Juan.apk"},
+  {name:"Juan Pro", version:"2.3", rating:"4.8★", desc:"Versión pro con más funciones.", img:"assets/images/JuanPro.png", apk:"apks/JuanPro.apk"},
+  {name:"Juan Lite", version:"0.5", rating:"4.0★", desc:"Versión ligera.", img:"assets/images/JuanLite.png", apk:"apks/JuanLite.apk"},
+  {name:"Juan Max", version:"3.0", rating:"5.0★", desc:"La más completa.", img:"assets/images/JuanMax.png", apk:"apks/JuanMax.apk"},
+  {name:"Juan GO", version:"1.5", rating:"4.2★", desc:"Rápida y simple.", img:"assets/images/JuanGO.png", apk:"apks/JuanGO.apk"},
+  {name:"Juan Beta", version:"0.9", rating:"3.8★", desc:"Versión de prueba.", img:"assets/images/JuanBeta.png", apk:"apks/JuanBeta.apk"}
 ];
 
 const appsContainer = document.getElementById("apps");
@@ -70,7 +80,7 @@ function renderApps() {
   data.forEach((app,i)=>{
     appsContainer.innerHTML += `
     <div class="app-card">
-      <div class="app-icon"></div>
+      <img class="app-icon" src="${app.img}">
       <div class="app-name">${app.name}</div>
       <div class="version">v${app.version}</div>
       <button class="btn" onclick="verDetalle(${i})">Descargar</button>
@@ -84,22 +94,19 @@ function verDetalle(i) {
   const detail = document.getElementById("detail");
   detail.style.display="block";
 
-  let versionesHTML = "";
-  app.versions.forEach(v=>{
-    versionesHTML += `<div class='version-item'>Versión ${v}</div>`;
-  });
-
   detail.innerHTML = `
     <div class="back" onclick="volver()">← Volver</div>
     <div class="detail-box">
-      <div class="big-icon"></div>
+      <img class="big-icon" src="${app.img}">
       <h2>${app.name}</h2>
       <div class="rating">${app.rating}</div>
       <div class="desc">${app.desc}</div>
-      <button class="btn" onclick="descargar('Juan.apk')">Descargar última versión (v${app.version})</button>
+      <a href="${app.apk}" download>
+        <button class="btn">Descargar última versión (v${app.version})</button>
+      </a>
       <div class="versions">
-        <h3>Otras versiones</h3>
-        ${versionesHTML}
+        <h3>Versiones disponibles</h3>
+        <div class="version-item">v${app.version}</div>
       </div>
     </div>`;
 }
@@ -107,10 +114,6 @@ function verDetalle(i) {
 function volver() {
   document.getElementById("detail").style.display="none";
   document.getElementById("home").style.display="block";
-}
-
-function descargar(archivo) {
-  alert("Descargando " + archivo + " (simulado)");
 }
 
 function buscarApps(texto) {
