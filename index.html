@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>CGApps</title>
+  <title>CGApps - Descargas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; color:#111; }
@@ -12,41 +12,26 @@
     .search { padding:10px; text-align:center; background:white; }
     .search input { width:90%; padding:10px; border-radius:10px; border:1px solid #ccc; }
 
-    /* GRID RESPONSIVE */
     .container { padding:15px; display:grid; gap:15px; }
 
-    /* PC */
-    @media (min-width:900px) {
-      .container { grid-template-columns: repeat(4, 1fr); }
-    }
-
-    /* Móvil horizontal */
-    @media (min-width:600px) and (max-width:899px) {
-      .container { grid-template-columns: repeat(3, 1fr); }
-    }
-
-    /* Móvil vertical */
-    @media (max-width:599px) {
-      .container { grid-template-columns: repeat(1, 1fr); }
-    }
+    @media (min-width:900px) { .container { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width:600px) and (max-width:899px) { .container { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width:599px) { .container { grid-template-columns: repeat(1, 1fr); } }
 
     .app-card { background:white; padding:10px; border-radius:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
     .app-icon { width:60px; height:60px; border-radius:15px; margin:0 auto 10px; object-fit:cover; }
     .app-name { font-size:16px; font-weight:bold; margin-bottom:4px; }
     .creator { font-size:12px; color:#777; margin-bottom:6px; }
-    .version { font-size:12px; color:gray; margin-bottom:6px; }
     .version { font-size:12px; color:gray; margin-bottom:10px; }
 
     .btn { background:#00cc88; color:white; border:none; padding:8px; border-radius:10px; cursor:pointer; width:100%; font-weight:bold; }
     .btn:hover { background:#00aa70; }
 
-    /* DETALLE */
     .detail { display:none; padding:15px; }
     .detail-box { background:white; border-radius:15px; padding:15px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
     .big-icon { width:90px; height:90px; border-radius:20px; object-fit:cover; }
     .rating { color:gold; font-weight:bold; margin:5px 0; }
     .desc { font-size:14px; color:#444; margin:10px 0; }
-    .versions { margin-top:10px; }
     .version-item { background:#eee; padding:8px; border-radius:8px; margin:5px 0; font-size:13px; }
     .back { margin-bottom:10px; display:inline-block; cursor:pointer; color:#00aa70; font-weight:bold; }
   </style>
@@ -59,7 +44,6 @@
   <div class="search">
     <input type="text" placeholder="Buscar apps..." onkeyup="buscarApps(this.value)">
   </div>
-
   <div class="container" id="apps"></div>
 </div>
 
@@ -67,12 +51,12 @@
 
 <script>
 const data = [
-  {name:"Chicken Gun", creator:"ChaloApps", version:"5.5.0", rating:"4.5★", desc:"La app original de Juan.", img:"assets/images/ChickenGunLogo.png", apk:"apks/Juan.apk"},
-  {name:"Fruzer Gun", creator:"Fruzer", version:"0.6.0", rating:"4.1★", desc:"Versión pro con más funciones.", img:"assets/images/ChickenGunPrivateServerLogo.png", apk:"apks/JuanPro.apk"},
-  {name:"Military Chicken Gun", creator:"КУРЫЧ", version:"1.1", rating:"4.0★", desc:"Versión ligera.", img:"assets/images/MilitaryChickenGunLogo.png", apk:"apks/JuanLite.apk"},
-  {name:"Chicken Gun Legacy", creator:"TheRudyPlayer", version:"1.0.2", rating:"3.0★", desc:"La más completa.", img:"assets/images/ChickenGunLegacyLogo.png", apk:"apks/JuanMax.apk"},
-  {name:"Rooster Gun", creator:"Matvey12K", version:"2.2.03", rating:"4.2★", desc:"Rápida y simple.", img:"assets/images/ChickenGunLogo.png", apk:"apks/JuanGO.apk"},
-  {name:"Juan Beta", creator:"RudyDev", version:"0.9", rating:"3.8★", desc:"Versión de prueba.", img:"assets/images/JuanBeta.png", apk:"apks/JuanBeta.apk"}
+  {name:"Chicken Gun", creator:"RudyDev", version:"1.0", rating:"4.5★", desc:"La app original de Juan.", img:"assets/images/Juan.png", link:"https://www.google.com", versions:["1.0","0.9","0.8"]},
+  {name:"Fruzer Gun", creator:"RudyDev", version:"2.3", rating:"4.8★", desc:"Versión pro.", img:"assets/images/JuanPro.png", link:"https://www.youtube.com", versions:["2.3","2.2","2.1"]},
+  {name:"Military Chicken Gun", creator:"?", version:"0.5", rating:"4.0★", desc:"Versión ligera.", img:"assets/images/JuanLite.png", link:"https://www.wikipedia.org", versions:["0.5","0.4"]},
+  {name:"Chicken Gun Legacy", creator:"RudyDev", version:"3.0", rating:"5.0★", desc:"La más completa.", img:"assets/images/JuanMax.png", link:"https://www.bing.com", versions:["3.0","2.9"]},
+  {name:"Rooster Gun", creator:"RudyDev", version:"1.5", rating:"4.2★", desc:"Rápida.", img:"assets/images/JuanGO.png", link:"https://www.twitter.com", versions:["1.5","1.4"]},
+  {name:"Juan Beta", creator:"RudyDev", version:"0.9", rating:"3.8★", desc:"Prueba.", img:"assets/images/JuanBeta.png", link:"https://www.github.com", versions:["0.9","0.8"]}
 ];
 
 const appsContainer = document.getElementById("apps");
@@ -105,12 +89,10 @@ function verDetalle(i) {
       <div class="creator">Creado por ${app.creator}</div>
       <div class="rating">${app.rating}</div>
       <div class="desc">${app.desc}</div>
-      <a href="${app.apk}" download>
-        <button class="btn">Descargar última versión (v${app.version})</button>
-      </a>
+      <button class="btn" onclick="window.open('${app.link}','_blank')">Descargar última versión (v${app.version})</button>
       <div class="versions">
         <h3>Versiones disponibles</h3>
-        <div class="version-item">v${app.version}</div>
+        ${app.versions.map(v => `<div class="version-item">v${v}</div>`).join('')}
       </div>
     </div>`;
 }
@@ -122,8 +104,7 @@ function volver() {
 
 function buscarApps(texto) {
   texto = texto.toLowerCase();
-  const cards = document.querySelectorAll('.app-card');
-  cards.forEach(card => {
+  document.querySelectorAll('.app-card').forEach(card => {
     card.style.display = card.innerText.toLowerCase().includes(texto) ? 'block' : 'none';
   });
 }
