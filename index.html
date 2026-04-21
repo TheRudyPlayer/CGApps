@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>CGApps - Descargas</title>
+  <title>CGApps</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { margin:0; font-family:Arial,sans-serif; background:#f5f5f5; color:#111; }
@@ -32,7 +32,9 @@
 
     .app-card { background:white; padding:10px; border-radius:15px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
     .app-icon { width:60px; height:60px; border-radius:15px; margin:0 auto 10px; object-fit:cover; }
-    .app-name { font-size:16px; font-weight:bold; }
+    .app-name { font-size:16px; font-weight:bold; margin-bottom:4px; }
+    .creator { font-size:12px; color:#777; margin-bottom:6px; }
+    .version { font-size:12px; color:gray; margin-bottom:6px; }
     .version { font-size:12px; color:gray; margin-bottom:10px; }
 
     .btn { background:#00cc88; color:white; border:none; padding:8px; border-radius:10px; cursor:pointer; width:100%; font-weight:bold; }
@@ -65,12 +67,12 @@
 
 <script>
 const data = [
-  {name:"Chicken Gun", version:"5.5.0", rating:"4.5★", desc:"La app original de Juan.", img:"assets/images/ChickenGunLogo.png", apk:"apks/Juan.apk"},
-  {name:"Juan Pro", version:"2.3", rating:"4.8★", desc:"Versión pro con más funciones.", img:"assets/images/JuanPro.png", apk:"apks/JuanPro.apk"},
-  {name:"Juan Lite", version:"0.5", rating:"4.0★", desc:"Versión ligera.", img:"assets/images/JuanLite.png", apk:"apks/JuanLite.apk"},
-  {name:"Juan Max", version:"3.0", rating:"5.0★", desc:"La más completa.", img:"assets/images/JuanMax.png", apk:"apks/JuanMax.apk"},
-  {name:"Juan GO", version:"1.5", rating:"4.2★", desc:"Rápida y simple.", img:"assets/images/JuanGO.png", apk:"apks/JuanGO.apk"},
-  {name:"Juan Beta", version:"0.9", rating:"3.8★", desc:"Versión de prueba.", img:"assets/images/JuanBeta.png", apk:"apks/JuanBeta.apk"}
+  {name:"Chicken Gun", creator:"ChaloApps", version:"5.5.0", rating:"4.5★", desc:"La app original de Juan.", img:"assets/images/ChickenGunLogo.png", apk:"apks/Juan.apk"},
+  {name:"Chicken Gun Private Server", creator:"Fruzer", version:"1.4.0", rating:"4.1★", desc:"Versión pro con más funciones.", img:"assets/images/ChickenGunPrivateServerLogo.png", apk:"apks/JuanPro.apk"},
+  {name:"Military Chicken Gun", creator:"Unknown", version:"1.2.5", rating:"4.0★", desc:"Versión ligera.", img:"assets/images/MilitaryChickenGunLogo.png", apk:"apks/JuanLite.apk"},
+  {name:"Chicken Gun Legacy", creator:"TheRudyPlayer", version:"1.0.2", rating:"3.0★", desc:"La más completa.", img:"assets/images/ChickenGunLegacyLogo.png", apk:"apks/JuanMax.apk"},
+  {name:"Juan GO", creator:"RudyDev", version:"1.5", rating:"4.2★", desc:"Rápida y simple.", img:"assets/images/JuanGO.png", apk:"apks/JuanGO.apk"},
+  {name:"Juan Beta", creator:"RudyDev", version:"0.9", rating:"3.8★", desc:"Versión de prueba.", img:"assets/images/JuanBeta.png", apk:"apks/JuanBeta.apk"}
 ];
 
 const appsContainer = document.getElementById("apps");
@@ -83,6 +85,7 @@ function renderApps() {
       <img class="app-icon" src="${app.img}">
       <div class="app-name">${app.name}</div>
       <div class="version">v${app.version}</div>
+      <div class="creator">por ${app.creator}</div>
       <button class="btn" onclick="verDetalle(${i})">Descargar</button>
     </div>`;
   });
@@ -99,6 +102,7 @@ function verDetalle(i) {
     <div class="detail-box">
       <img class="big-icon" src="${app.img}">
       <h2>${app.name}</h2>
+      <div class="creator">Creado por ${app.creator}</div>
       <div class="rating">${app.rating}</div>
       <div class="desc">${app.desc}</div>
       <a href="${app.apk}" download>
